@@ -2,15 +2,52 @@
 {% block content %}
 
 <div class="container">
-  <div class="row">
-    <div class="col-md-12 card mb-4  mt-3 left  top">
-      <div class="card-body">
-        <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
-        <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
-        <p class="card-text ">{{ post.content | safe }}</p>
-      </div>
+    <div class="row">
+<!--Posts-->
+        <div class="col-md-12 card mb-4  mt-3 left  top">
+            <div class="card-body">
+                <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
+                <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
+                <p class="card-text ">{{ post.content | safe }}</p>
+            </div>
+        </div>
+<!--Posts-->
+<!--Commects-->
+        <div class="col-md-12 card mb-4  mt-3 ">
+            <div class="card-body">
+                <!-- comments -->
+                <h2>{{ comments.count }} comments</h2>
+                  {% for comment in comments %}
+                      <p class="font-weight-bold">
+                              {{ comment.name }}
+                          <span class=" text-muted font-weight-normal">
+                             {{ comment.created_on }}
+                          </span>
+                      </p>
+                      {{ comment.body | linebreaks }}
+                  {% endfor %}
+            </div>
+        </div>
+<!--Commects-->
+<!--From-->
+        <div class="col-md-12 card mb-4  mt-3 ">
+            <div class="card-body">
+                {% if new_comment %}
+                    <div>
+                        Your comment is awaiting moderation
+                    </div>
+                {% else %}
+                    <h3>Leave a comment</h3>
+                    <form method="post">
+                        {{ comment_form.as_p }}
+                        {% csrf_token %}
+                        <button type="submit">Submit</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+<!--From-->
     </div>
-  </div>
 </div>
 
 {% endblock content %}
