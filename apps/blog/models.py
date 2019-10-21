@@ -16,6 +16,7 @@ class Post(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    tags = models.ManyToManyField('Tag')
 
     class Meta:
         ordering = ['-created_on']
@@ -36,3 +37,14 @@ class Comment(models.Model):
 
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.name)
+
+class Tag(models.Model):
+    name = models.CharField(max_length=80)
+    slug = models.SlugField(max_length=200, unique=True)
+    description = models.CharField(max_length=80)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name

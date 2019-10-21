@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
 <!--Posts-->
-        <div class="col-md-12 card mb-4  mt-3 left  top">
+        <div class="col-md-12 card mt-3 mb-1 left  top">
             <div class="card-body">
                 <h1>{% block title %} {{ post.title }} {% endblock title %}</h1>
                 <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
@@ -12,8 +12,19 @@
             </div>
         </div>
 <!--Posts-->
+<!--Tags-->
+        <div class="col-md-12 card mb-3 left">
+                <div class="row ml-3">Tag:
+                  {% for tag in tags %}
+                      <a href="{% url 'tag_detail' tag.slug  %}" class="ml-1 text-secondary">
+                      {{ tag.name }}
+                      </a>
+                  {% endfor %}
+                </div>
+        </div>
+<!--Tags-->
 <!--Commects-->
-        <div class="col-md-12 card mb-4  mt-3 ">
+        <div class="col-md-12 card mb-1">
             <div class="card-body">
                 <!-- comments -->
                 <h2>{{ comments.count }} comments</h2>
@@ -30,7 +41,7 @@
         </div>
 <!--Commects-->
 <!--From-->
-        <div class="col-md-12 card mb-4  mt-3 ">
+        <div class="col-md-12 card mb-4">
             <div class="card-body">
                 {% if new_comment %}
                     <div>
@@ -49,5 +60,4 @@
 <!--From-->
     </div>
 </div>
-
 {% endblock content %}

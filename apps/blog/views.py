@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
-from .models import Post, Comment
-from .forms import CommentForm
+from blog.models import Post, Comment, Tag
+from blog.forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 
 class PostList(generic.ListView):
@@ -12,11 +12,11 @@ class PostList(generic.ListView):
 #    model = Post
 #    template_name = 'post_detail.html'
 
-
 def post_detail(request, slug):
     template_name = 'post_detail.html'
     post = get_object_or_404(Post, slug=slug)
     comments = post.comments.filter(active=True)
+    tags = post.tags.all()
     new_comment = None
     # Comment posted
     if request.method == 'POST':
@@ -33,6 +33,14 @@ def post_detail(request, slug):
         comment_form = CommentForm()
 
     return render(request, template_name, {'post': post,
+                                           'tags': tags,
                                            'comments': comments,
                                            'new_comment': new_comment,
                                            'comment_form': comment_form})
+
+def tag_detail(request, slug):
+    template_name = 'tag_detail.html'
+    tag = get_object_or_404(Tag, slug=slug)
+    posts = tag.post_set.all()
+
+    return render(request, template_name, {'posts': posts})

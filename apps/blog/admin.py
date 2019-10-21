@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -17,3 +17,10 @@ class CommentAdmin(admin.ModelAdmin):
 
     def approve_comments(self, request, queryset):
         queryset.update(active=True)
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    list_filter = ("name",)
+    search_fields = ['name']
+    prepopulated_fields = {'slug': ('name',)}
