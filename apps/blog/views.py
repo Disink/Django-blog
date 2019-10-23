@@ -15,22 +15,32 @@ class PostList(generic.ListView):
 def post_detail(request, slug):
     template_name = 'post_detail.html'
     post = get_object_or_404(Post, slug=slug)
-    comments = post.comments.filter(active=True)
+    comments = post.comments.filter(active=True, replay=None)
+    comments_all = post.comments.filter(active=True)
     tags = post.tags.all()
     new_comment = None
     # Comment posted
     if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
+        comment_form = CommentForm(data=request.POST, slug=slug)
         if comment_form.is_valid():
 
             # Create Comment object but don't save to database yet
             new_comment = comment_form.save(commit=False)
             # Assign the current post to the comment
             new_comment.post = post
+            #print(request.POST.get('replay'))
+
+            replay_id = request.POST.get('replay')
+            if replay_id == '':
+                floor = comments.count() + 1
+                new_comment.floor = floor
+            else:
+                floor = comments_all.filter(replay_id).count()+1
+                new_comment.floor = floor
             # Save the comment to the database
             new_comment.save()
     else:
-        comment_form = CommentForm()
+        comment_form = CommentForm(slug=slug)
 
     return render(request, template_name, {'post': post,
                                            'tags': tags,

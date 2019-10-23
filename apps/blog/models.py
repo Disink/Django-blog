@@ -26,17 +26,20 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments')
+    floor = models.CharField(max_length=5)
     name = models.CharField(max_length=80)
     email = models.EmailField()
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
+    replay = models.ForeignKey('self', on_delete= models.CASCADE, related_name='replays', null=True)
 
     class Meta:
         ordering = ['created_on']
 
     def __str__(self):
-        return 'Comment {} by {}'.format(self.body, self.name)
+        #return 'Comment {} by {}'.format(self.body, self.name)
+        return self.floor + "F"
 
 class Tag(models.Model):
     name = models.CharField(max_length=80)

@@ -36,6 +36,19 @@
                           </span>
                       </p>
                       {{ comment.body | linebreaks }}
+
+                      {% for replay in comment.replays.all %}
+                          <div class="card col-md-8 ml-3 mt-3">
+                            <p class="font-weight-bold">
+                                {{ replay.name }}
+                                <span class=" text-muted font-weight-normal">
+                                    {{ replay.created_on }}
+                                </span>
+                            </p>
+                            {{ comment.body | linebreaks }}
+                          </div>
+                      {% endfor %}
+
                   {% endfor %}
             </div>
         </div>
