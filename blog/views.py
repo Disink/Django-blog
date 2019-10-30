@@ -4,16 +4,9 @@ from blog.models import Post, Comment, Tag
 from blog.forms import CommentForm
 from django.shortcuts import render, get_object_or_404
 
-from rest_framework import viewsets
-from .serializers import PostSerializers
-
 class PostList(generic.ListView):
     queryset = Post.objects.filter(status=1).order_by('-created_on')
     template_name = 'index.html'
-
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by('-pk')
-    serializer_class = PostSerializers
 
 #class PostDetail(generic.DetailView):
 #    model = Post

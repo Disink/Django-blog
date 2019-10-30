@@ -15,5 +15,9 @@
 - [x] 文章標籤
 
 - 階段二
+- [ ] RSETful API
+- - [x] 基本功能(GET, POST, PUT...)
+- - [x] Token Based Authentication
+- - [ ] Create and get Token key page
 - [ ] 前端優化(細項未定)
 - [ ] 後台優化(細項未定)
